@@ -1,23 +1,35 @@
-import sys
-import threading
-def compute_height(n, parents):
-    children = [[] for i in range(n)]
-    root_index = parents.index(-1)
+class Node:
+    def __init__(self, value):
+        self.value = value
+        self.children = []
+
+def build_tree(n, parents):
+    nodes = [Node(i) for i in range(n)]
+
     for i in range(n):
-        if parents[i] != -1:
-            children[parents[i]].append(i)
-    def compute_subtree_height(node_index):
-        if not children[node_index]:  
-            return 1
-        else:  
-            subtree_heights = [compute_subtree_height(child_index) for child_index in children[node_index]]
-            return 1 + max(subtree_heights)
-    return compute_subtree_height(root_index)
-def main():
-    n = int(input())
-    parents = list(map(int, input().split()))
-    print(compute_height(n, parents))
-sys.setrecursionlimit(10**6)
-threading.stack_size(2**27)
-thread = threading.Thread(target=main)
-thread.start()
+        parent = parents[i]
+        if parent == -1:
+            root = nodes[i]
+        else:
+            nodes[parent].children.append(nodes[i])
+
+    return root
+
+def calculate_height(node):
+    if not node.children:
+        return 1
+
+    max_height = 0
+    for child in node.children:
+        height = calculate_height(child)
+        max_height = max(max_height, height)
+
+    return max_height + 1
+
+n = int(input())
+parents = list(map(int, input().split()))
+
+tree = build_tree(n, parents)
+height = calculate_height(tree)
+
+print(height)
