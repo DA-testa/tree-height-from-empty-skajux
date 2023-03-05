@@ -43,7 +43,7 @@ def main():
             print("Type 'I' or 'F': ")
 
         return 
-    print(compute_height(n, parents))
+    print(compute_height(n, p))
 sys.setrecursionlimit(10**7)  
 threading.stack_size(2**27)   
 threading.Thread(target=main).start()
