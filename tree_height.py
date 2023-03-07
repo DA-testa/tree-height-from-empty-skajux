@@ -1,3 +1,4 @@
+#Kristiāns Martiņjaks 221RDB223
 import sys
 import threading
 def compute_height(n, ps):
